@@ -15,7 +15,7 @@ const NewsPage = () => {
         const fetchNews = async () => {
             try {
                 const response = await axios.get(
-                    `${API_BASE_URL}/news?country=us&category=${selectedCategory}`
+                    `${API_BASE_URL}/api/news?country=us&category=${selectedCategory}`
                 );
                 setBlogPosts(response.data);
                 console.log(response.data);
