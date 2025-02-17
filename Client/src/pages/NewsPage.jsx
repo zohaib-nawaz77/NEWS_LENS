@@ -10,11 +10,12 @@ const NewsPage = () => {
     const [selectedPost, setSelectedPost] = useState(null); // Track the selected blog post
     const [selectedCategory, setSelectedCategory] = useState(localStorage.getItem('selectedCategory') || 'general');
 
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
     useEffect(() => {
         const fetchNews = async () => {
             try {
                 const response = await axios.get(
-                    `/api/news?country=us&category=${selectedCategory}`
+                    `${API_BASE_URL}/news?country=us&category=${selectedCategory}`
                 );
                 setBlogPosts(response.data);
                 console.log(response.data);

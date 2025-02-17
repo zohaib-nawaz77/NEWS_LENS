@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api': 'https://newslens-api.onrender.com/'
+      '/api': 'https://newslens-api.onrender.com/' //proxy only works in development mode
     }
   },
 })
