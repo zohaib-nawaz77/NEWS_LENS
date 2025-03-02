@@ -8,8 +8,8 @@ import Modal from './Modal';
 const Header = () => {
     const [email, setEmail] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [subscribeStatus, setSubscribeStatus] = useState(null); // Added missing state
-    const [isLoading, setIsLoading] = useState(false); // Added loading state
+    const [isLoading, setIsLoading] = useState(false);
+    const [message, setMessage] = useState(null); // New state for dynamic messages
 
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -23,19 +23,20 @@ const Header = () => {
 
     const handleSubscribe = async () => {
         if (!validateEmail(email)) {
-            setSubscribeStatus('error');
+            setMessage('Please enter a valid email address');
             return;
         }
 
         setIsLoading(true);
+        setMessage(null); // Clear previous message
         try {
             const response = await axios.post(`${API_BASE_URL}/subscribe`, { email });
-            console.log('Subscription successful: Check your mail', response.data);
-            setSubscribeStatus('success');
+            console.log('Subscription successful:', response.data);
+            setMessage(response.data.message || 'You have subscribed successfully!'); // Use backend message or fallback
             setTimeout(() => {
                 setIsModalOpen(false);
                 setEmail('');
-                setSubscribeStatus(null);
+                setMessage(null);
                 setIsLoading(false);
             }, 1500);
         } catch (error) {
@@ -44,14 +45,16 @@ const Header = () => {
                 response: error.response?.data,
                 status: error.response?.status
             });
-            setSubscribeStatus('error');
+            // Use backend error message if available, otherwise fallback to generic message
+            setMessage(error.response?.data?.message || 'Subscription failed. Please try again.');
             setIsLoading(false);
         }
     };
+
     const handleClose = () => {
         setIsModalOpen(false);
         setEmail('');
-        setSubscribeStatus(null);
+        setMessage(null);
         setIsLoading(false);
     };
 
@@ -86,7 +89,7 @@ const Header = () => {
                     onClose={handleClose}
                     onSubscribe={handleSubscribe}
                     isLoading={isLoading}
-                    status={subscribeStatus}
+                    message={message} // Pass message instead of status
                 />
             )}
         </>

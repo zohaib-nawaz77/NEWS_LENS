@@ -1,4 +1,7 @@
-const Modal = ({ email, setEmail, onClose, onSubscribe, isLoading, status }) => {
+const Modal = ({ email, setEmail, onClose, onSubscribe, isLoading, status, message }) => {
+
+    // Determine if the message is an error (simplistic check based on content)
+    const isError = message && message.toLowerCase().includes('failed') || message?.toLowerCase().includes('valid');
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
             <div className="bg-white p-6 rounded-md w-96">
@@ -11,11 +14,10 @@ const Modal = ({ email, setEmail, onClose, onSubscribe, isLoading, status }) => 
                     className="w-full p-2 mb-4 border border-gray-300 rounded-md text-black focus:outline-none focus:border-zinc-700"
                     disabled={isLoading}
                 />
-                {status === 'error' && (
-                    <p className="text-red-500 text-sm mb-4">Subscription failed. Please try again.</p>
-                )}
-                {status === 'success' && (
-                    <p className="text-green-500 text-sm mb-4">Successfully subscribed!</p>
+                {message && (
+                    <p className={`text-sm mb-4 ${isError ? 'text-red-500' : 'text-green-500'}`}>
+                        {message}
+                    </p>
                 )}
                 <div className="flex justify-end gap-2">
                     <button
