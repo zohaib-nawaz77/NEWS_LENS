@@ -30,7 +30,7 @@ const Header = () => {
         setIsLoading(true);
         try {
             const response = await axios.post(`${API_BASE_URL}/subscribe`, { email });
-            console.log('Subscription successful: Check your mail', response.data, response.message);
+            console.log('Subscription successful: Check your mail', response.data);
             setSubscribeStatus('success');
             setTimeout(() => {
                 setIsModalOpen(false);
@@ -39,12 +39,15 @@ const Header = () => {
                 setIsLoading(false);
             }, 1500);
         } catch (error) {
-            console.error('Subscription failed:', error);
+            console.error('Subscription failed:', {
+                message: error.message,
+                response: error.response?.data,
+                status: error.response?.status
+            });
             setSubscribeStatus('error');
             setIsLoading(false);
         }
     };
-
     const handleClose = () => {
         setIsModalOpen(false);
         setEmail('');
