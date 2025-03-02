@@ -1,0 +1,41 @@
+const Modal = ({ email, setEmail, onClose, onSubscribe, isLoading, status }) => {
+    return (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+            <div className="bg-white p-6 rounded-md w-96">
+                <h2 className="text-lg font-semibold mb-4 text-black">Subscribe to Newsletter</h2>
+                <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email"
+                    className="w-full p-2 mb-4 border border-gray-300 rounded-md text-black focus:outline-none focus:border-zinc-700"
+                    disabled={isLoading}
+                />
+                {status === 'error' && (
+                    <p className="text-red-500 text-sm mb-4">Subscription failed. Please try again.</p>
+                )}
+                {status === 'success' && (
+                    <p className="text-green-500 text-sm mb-4">Successfully subscribed!</p>
+                )}
+                <div className="flex justify-end gap-2">
+                    <button
+                        onClick={onClose}
+                        disabled={isLoading}
+                        className="px-4 py-2 text-sm text-gray-600 hover:text-gray-800 disabled:opacity-50"
+                    >
+                        Close
+                    </button>
+                    <button
+                        onClick={onSubscribe}
+                        disabled={isLoading}
+                        className="px-4 py-2 text-sm bg-zinc-700 text-white rounded-md hover:bg-zinc-800 disabled:opacity-50"
+                    >
+                        {isLoading ? 'Subscribing...' : 'Subscribe'}
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default Modal;
