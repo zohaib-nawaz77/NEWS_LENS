@@ -29,34 +29,38 @@ const Modal = ({ email, setEmail, onClose, onSubscribe, isLoading, status, messa
     }, [message, isError]); // Depend on message and isError
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-            <div className="bg-white p-6 rounded-md w-96">
-                <h2 className="text-lg font-semibold mb-4 text-black">Subscribe to Newsletter</h2>
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-60 backdrop-blur-sm">
+            <div className="bg-white p-8 rounded-lg w-[400px] shadow-2xl">
+                <h1 className="text-3xl font-bold mb-3 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
+                    NewsLens
+                </h1>
+                <hr className="border-gray-200 mb-6" />
+                <h2 className="text-xl font-semibold mb-4 text-gray-800">Subscribe to Newsletter</h2>
                 <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter your email"
-                    className="w-full p-2 mb-4 border border-gray-300 rounded-md text-black focus:outline-none focus:border-zinc-700"
+                    className="w-full p-3 mb-6 border border-gray-300 rounded-lg text-gray-700 
+                    focus:outline-none focus:ring-2 focus:ring-zinc-600 focus:border-transparent 
+                    transition-all duration-200 ease-in-out"
                     disabled={isLoading}
                 />
-                {/* {message && (
-                    <p className={`text-sm mb-4 ${isError ? 'text-red-500' : 'text-green-500'}`}>
-                        {message}
-                    </p>
-                )} */}
-                <div className="flex justify-end gap-2">
+                <div className="flex justify-end gap-3">
                     <button
                         onClick={onClose}
                         disabled={isLoading}
-                        className="px-4 py-2 text-sm text-gray-600 hover:text-gray-800 disabled:opacity-50"
+                        className="px-5 py-2.5 text-sm font-medium text-gray-600 hover:text-gray-800 
+                        disabled:opacity-50 transition-colors duration-200"
                     >
                         Close
                     </button>
                     <button
                         onClick={onSubscribe}
                         disabled={isLoading}
-                        className="px-4 py-2 text-sm bg-zinc-700 text-white rounded-md hover:bg-zinc-800 disabled:opacity-50"
+                        className="px-5 py-2.5 text-sm font-medium bg-zinc-800 text-white rounded-lg
+                        hover:bg-zinc-900 disabled:opacity-50 transition-colors duration-200
+                        shadow-md hover:shadow-lg"
                     >
                         {isLoading ? 'Subscribing...' : 'Subscribe'}
                     </button>
