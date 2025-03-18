@@ -66,7 +66,7 @@ const Header = () => {
                 transition={{ duration: 1.5 }}
                 className="flex justify-between items-center h-[var(--navbarHeight)] w-full border-gray-600 border-b-[0.5px] px-4"
             >
-                <Link to='/'><div className="font-semibold text-2xl">News_Lens</div></Link>
+                <Link to='/'><div className="font-semibold text-2xl">NewsLens</div></Link>
                 <ul className='flex gap-4'>
                     <NavLink to='/' style={navLinkActiveStyle}>
                         <li className='text-[0.9rem] cursor-pointer hover:text-gray-300'>Home</li>
