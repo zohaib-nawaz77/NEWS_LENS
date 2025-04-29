@@ -19,15 +19,11 @@ const NewsCard = ({ id, index, image, title, description, date, isOdd, onClick, 
 
                 <div className="hidden sm:block sm:basis-56 sm:min-w-[14rem]">
                     <div className="relative w-full h-full">
-                        {image ? (
-                            <img src={image} alt={title} className="absolute inset-0 h-full w-full object-cover" />
-                        ) : (
-                            <img
-                                src="https://placehold.co/300x200"
-                                alt="Placeholder"
-                                className="absolute inset-0 h-full w-full object-cover"
-                            />
-                        )}
+                        <img
+                            alt={title}
+                            src={image}
+                            className="absolute inset-0 h-full w-full object-cover"
+                        />
                     </div>
                 </div>
 

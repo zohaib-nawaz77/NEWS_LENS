@@ -55,7 +55,7 @@ const NewsPage = () => {
                             key={post.id}
                             index={index}
                             id={post.id}
-                            image={post.urlToImage || 'https://via.placeholder.com/300x200'}
+                            image={post.urlToImage || 'https://placehold.co/300x200'}
                             title={post.title}
                             description={post.description}
                             readingTime={post.publishedAt}
