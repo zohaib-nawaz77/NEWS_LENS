@@ -21,7 +21,11 @@ const NewsCard = ({ id, index, image, title, description, date, isOdd, onClick, 
                     <div className="relative w-full h-full">
                         <img
                             alt={title}
-                            src={image || "https://placehold.com/300x200"}
+                            src={image }
+                            onError={(e) => {
+                                e.target.onerror = null; // prevents looping
+                                e.target.src = 'https://placehold.com/150'; // fallback image
+                            }}
                             className="absolute inset-0 h-full w-full object-cover"
                         />
                     </div>
