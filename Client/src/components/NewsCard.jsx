@@ -21,7 +21,7 @@ const NewsCard = ({ id, index, image, title, description, date, isOdd, onClick, 
                     <div className="relative w-full h-full">
                         <img
                             alt={title}
-                            src={image || "https://placehold.com/300x200"}
+                            src={image || "https://placehold.co/300x200"}
                             className="absolute inset-0 h-full w-full object-cover"
                         />
                     </div>
