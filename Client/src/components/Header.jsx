@@ -10,8 +10,8 @@ const Header = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState(null);
-    const [user, setUser] = useState(null);
-    const [showDropdown, setShowDropdown] = useState(false);
+    const [user, setUser] = useState(null); // New state for user data
+    const [showDropdown, setShowDropdown] = useState(false); // For profile dropdown
 
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -19,19 +19,18 @@ const Header = () => {
         color: isActive ? "#FFF176" : "white"
     });
 
-    // Fetch user profile data - FIXED: Updated API endpoint
+    // Fetch user profile data
     const fetchUserProfile = async () => {
         const token = localStorage.getItem('token');
         if (!token) return;
 
         try {
-            const response = await axios.get(`${API_BASE_URL}/api/user/profile`, {
+            const response = await axios.get(`${API_BASE_URL}/auth/profile`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            setUser(response.data);
-            console.log('User profile fetched:', response.data); // Debug log
+            setUser(response.data); // Direct access since your backend returns user object directly
         } catch (error) {
             console.error('Failed to fetch user profile:', error);
             // If token is invalid, remove it
@@ -46,14 +45,6 @@ const Header = () => {
     useEffect(() => {
         fetchUserProfile();
     }, []);
-
-    // Also fetch user profile when token changes (after login)
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token && !user) {
-            fetchUserProfile();
-        }
-    }, [user]);
 
     const validateEmail = (email) => {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -128,13 +119,10 @@ const Header = () => {
                         >
                             <img
                                 src={user.picture || '/default-avatar.png'}
-                                alt={user.name || 'User'}
+                                alt={user.name}
                                 className="w-8 h-8 rounded-full"
-                                onError={(e) => {
-                                    e.target.src = '/default-avatar.png';
-                                }}
                             />
-                            <span className="text-sm font-medium">{user.name || user.email}</span>
+                            <span className="text-sm font-medium">{user.name}</span>
                             <svg 
                                 className={`w-4 h-4 transition-transform ${showDropdown ? 'rotate-180' : ''}`}
                                 fill="none" 
@@ -149,7 +137,7 @@ const Header = () => {
                             <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 z-50">
                                 <div className="py-1">
                                     <div className="px-4 py-2 text-sm text-gray-700 border-b">
-                                        <div className="font-medium">{user.name || 'User'}</div>
+                                        <div className="font-medium">{user.name}</div>
                                         <div className="text-gray-500">{user.email}</div>
                                     </div>
                                     <button
