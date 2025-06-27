@@ -15,7 +15,7 @@ const Routin = () => {
         if (tokenGoogle) {
             toast.success("Login successful");
             localStorage.setItem("token", tokenGoogle); // ← Use tokenGoogle, not token
-            navigate("/");
+            navigate("/blog");
         }
     }, []);
 
