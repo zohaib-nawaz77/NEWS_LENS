@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 import Header from '../../components/Header'
 import HomePage from '../../pages/HomePage'
 import News_Detail from '../../pages/News_Detail'
@@ -8,6 +8,8 @@ import { toast } from 'react-toastify';
 import NewsPage from '../../pages/NewsPage'
 
 const Routin = () => {
+
+    const navigate = useNavigate();
     useEffect(() => {
         const tokenGoogle = new URLSearchParams(window.location.search).get("token");
         if (tokenGoogle) {
