@@ -30,9 +30,10 @@ const Modal = ({ email, setEmail, onClose, onSubscribe, isLoading, status, messa
 
     const handleGoogleLogin = () => {
         try {
-            window.location.href = "http://localhost:3001/api/auth/google";
+            // Fixed: Remove /api from the path
+            window.location.href = "https://newslens-api.onrender.com/api/auth/google";
         } catch (err) {
-            toast.error(err.response.data.message);
+            toast.error(err.response?.data?.message || "Authentication failed");
         }
     };
 
