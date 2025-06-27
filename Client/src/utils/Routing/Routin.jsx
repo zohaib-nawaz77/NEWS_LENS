@@ -9,12 +9,10 @@ import NewsPage from '../../pages/NewsPage'
 
 const Routin = () => {
     useEffect(() => {
-        const tokenGoogle = new URLSearchParams(window.location.search).get(
-            "token"
-        );
+        const tokenGoogle = new URLSearchParams(window.location.search).get("token");
         if (tokenGoogle) {
             toast.success("Login successful");
-            localStorage.setItem("token", token);
+            localStorage.setItem("token", tokenGoogle); // ← Use tokenGoogle, not token
             navigate("/");
         }
     }, []);
