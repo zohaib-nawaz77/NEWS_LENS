@@ -1,50 +1,21 @@
 import { NavLink, Link } from 'react-router-dom';
 import '../index.css';
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import Modal from './Modal';
 
-const Header = () => {
+const Header = ({ user }) => {
     const [email, setEmail] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [message, setMessage] = useState(null);
-    const [user, setUser] = useState(null); // New state for user data
-    const [showDropdown, setShowDropdown] = useState(false); // For profile dropdown
+    const [message, setMessage] = useState(null); // New state for dynamic messages
 
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
     const navLinkActiveStyle = ({ isActive }) => ({
         color: isActive ? "#FFF176" : "white"
     });
-
-    // Fetch user profile data
-    const fetchUserProfile = async () => {
-        const token = localStorage.getItem('token');
-        if (!token) return;
-
-        try {
-            const response = await axios.get(`${API_BASE_URL}/auth/profile`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            setUser(response.data); // Direct access since your backend returns user object directly
-        } catch (error) {
-            console.error('Failed to fetch user profile:', error);
-            // If token is invalid, remove it
-            if (error.response?.status === 401) {
-                localStorage.removeItem('token');
-                setUser(null);
-            }
-        }
-    };
-
-    // Check for existing token and fetch user data on component mount
-    useEffect(() => {
-        fetchUserProfile();
-    }, []);
 
     const validateEmail = (email) => {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -57,11 +28,11 @@ const Header = () => {
         }
 
         setIsLoading(true);
-        setMessage(null);
+        setMessage(null); // Clear previous message
         try {
             const response = await axios.post(`${API_BASE_URL}/subscribe`, { email });
             console.log('Subscription successful:', response.data);
-            setMessage(response.data.message || 'You have subscribed successfully!');
+            setMessage(response.data.message || 'You have subscribed successfully!'); // Use backend message or fallback
             setTimeout(() => {
                 setIsModalOpen(false);
                 setEmail('');
@@ -74,6 +45,7 @@ const Header = () => {
                 response: error.response?.data,
                 status: error.response?.status
             });
+            // Use backend error message if available, otherwise fallback to generic message
             setMessage(error.response?.data?.message || 'Subscription failed. Please try again.');
             setIsLoading(false);
         }
@@ -86,11 +58,9 @@ const Header = () => {
         setIsLoading(false);
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        setUser(null);
-        setShowDropdown(false);
-    };
+
+
+
 
     return (
         <>
@@ -108,66 +78,20 @@ const Header = () => {
                     <NavLink to='/blog' style={navLinkActiveStyle}>
                         <li className='text-[0.9rem] cursor-pointer hover:text-gray-300'>All News</li>
                     </NavLink>
+
                 </ul>
-                
-                {/* User Profile or Subscribe Button */}
-                {user ? (
-                    <div className="relative">
-                        <button
-                            onClick={() => setShowDropdown(!showDropdown)}
-                            className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-zinc-800 transition-colors"
-                        >
-                            <img
-                                src={user.picture || '/default-avatar.png'}
-                                alt={user.name}
-                                className="w-8 h-8 rounded-full"
-                            />
-                            <span className="text-sm font-medium">{user.name}</span>
-                            <svg 
-                                className={`w-4 h-4 transition-transform ${showDropdown ? 'rotate-180' : ''}`}
-                                fill="none" 
-                                stroke="currentColor" 
-                                viewBox="0 0 24 24"
-                            >
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                        
-                        {showDropdown && (
-                            <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 z-50">
-                                <div className="py-1">
-                                    <div className="px-4 py-2 text-sm text-gray-700 border-b">
-                                        <div className="font-medium">{user.name}</div>
-                                        <div className="text-gray-500">{user.email}</div>
-                                    </div>
-                                    <button
-                                        onClick={handleLogout}
-                                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                    >
-                                        Sign out
-                                    </button>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                ) : (
-                    <button
-                        onClick={() => setIsModalOpen(true)}
-                        className='text-sm font-medium px-4 py-2 rounded-md border border-zinc-700 hover:bg-zinc-800 transition-colors'
-                    >
-                        Subscribe
-                    </button>
-                )}
+                <div>
+
+                    {user ? <div>{user.name}</div> : ""}
+                </div>
+                <button
+                    onClick={() => setIsModalOpen(true)}
+                    className='text-sm font-medium px-4 py-2 rounded-md border border-zinc-700 hover:bg-zinc-800 transition-colors'
+                >
+                    Subscribe
+                </button>
+
             </motion.nav>
-            
-            {/* Click outside to close dropdown */}
-            {showDropdown && (
-                <div 
-                    className="fixed inset-0 z-40" 
-                    onClick={() => setShowDropdown(false)}
-                />
-            )}
-            
             {isModalOpen && (
                 <Modal
                     email={email}
@@ -175,7 +99,7 @@ const Header = () => {
                     onClose={handleClose}
                     onSubscribe={handleSubscribe}
                     isLoading={isLoading}
-                    message={message}
+                    message={message} // Pass message instead of status
                 />
             )}
         </>
