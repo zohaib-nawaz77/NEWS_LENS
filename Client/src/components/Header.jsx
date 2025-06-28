@@ -58,10 +58,6 @@ const Header = ({ user }) => {
         setIsLoading(false);
     };
 
-
-
-
-
     return (
         <>
             <motion.nav
@@ -78,18 +74,28 @@ const Header = ({ user }) => {
                     <NavLink to='/blog' style={navLinkActiveStyle}>
                         <li className='text-[0.9rem] cursor-pointer hover:text-gray-300'>All News</li>
                     </NavLink>
-
                 </ul>
-                <div>
 
-                    {user ? <div>{user.name}</div> : ""}
-                </div>
-                <button
-                    onClick={() => setIsModalOpen(true)}
-                    className='text-sm font-medium px-4 py-2 rounded-md border border-zinc-700 hover:bg-zinc-800 transition-colors'
-                >
-                    Subscribe
-                </button>
+                {user ? (
+                    <div className="flex items-center gap-3">
+                        <img
+                            src={user.profilePicture}
+                            alt={user.name}
+                            className="w-8 h-8 rounded-full"
+                        />
+                        <div className="flex flex-col">
+                            <span className="text-sm font-medium">{user.name}</span>
+                            <span className="text-xs text-gray-400">{user.email}</span>
+                        </div>
+                    </div>
+                ) : (
+                    <button
+                        onClick={() => setIsModalOpen(true)}
+                        className='text-sm font-medium px-4 py-2 rounded-md border border-zinc-700 hover:bg-zinc-800 transition-colors'
+                    >
+                        Subscribe
+                    </button>
+                )}
 
             </motion.nav>
             {isModalOpen && (
