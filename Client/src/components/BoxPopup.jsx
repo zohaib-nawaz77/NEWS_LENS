@@ -39,7 +39,6 @@ const BoxPopup = ({ selectedPost, setSelectedPost }) => {
                     );
 
                     const data = await res.json();
-                    console.log('AI Response:', data);
 
                     // 🌟 ADD A CHECK FOR API ERRORS HERE 🌟
                     if (data.error) {

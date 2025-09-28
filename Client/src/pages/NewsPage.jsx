@@ -28,7 +28,6 @@ const NewsPage = () => {
 
     const handleCardClick = useCallback((post) => {
         setSelectedPost(post); // Set the selected blog post
-        console.log(post);
     }, []);
 
     return blogPosts && blogPosts.length === 0 ? (
