@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 
-const NewsCard = ({ id, index, image, title, description, date, isOdd, onClick, post }) => {
+const NewsCard = ({  index, image, title, description, date, isOdd, onClick, post }) => {
 
     const [isHovered, setIsHovered] = useState(false);
 

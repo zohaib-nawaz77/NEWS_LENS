@@ -11,7 +11,7 @@ const BoxPopup = ({ selectedPost, setSelectedPost }) => {
                 setGenerating(true);
                 try {
                     const res = await fetch(
-                        "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyAs9UxWgOrQlaVMzRuIxLJ7dVuzUgo1mY8",
+                        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyDTFCAFaCtZe6alJNV5kqXAfC6oW2vwpxc",
                         {
                             method: 'POST',
                             headers: {
@@ -39,6 +39,12 @@ const BoxPopup = ({ selectedPost, setSelectedPost }) => {
                     );
 
                     const data = await res.json();
+                    console.log('AI Response:', data);
+
+                    // 🌟 ADD A CHECK FOR API ERRORS HERE 🌟
+                    if (data.error) {
+                        throw new Error(`API Error: ${data.error.message || 'Unknown error'}`);
+                    }
                     const aiResponse = data.candidates[0].content.parts[0].text;
                     setSummary(aiResponse);
                     setGenerating(false);

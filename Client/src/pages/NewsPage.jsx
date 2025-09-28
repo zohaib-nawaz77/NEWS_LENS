@@ -18,7 +18,6 @@ const NewsPage = () => {
                     `${API_BASE_URL}/api/news?country=us&category=${selectedCategory}`
                 );
                 setBlogPosts(response.data);
-                console.log(response.data);
             } catch (error) {
                 console.log(error);
             }
@@ -52,9 +51,8 @@ const NewsPage = () => {
                     blogPosts.map((post, index) => {
                         return <NewsCard
                             isOdd={index % 2 === 1}
-                            key={post.id}
+                            key={post.title + index}
                             index={index}
-                            id={post.id}
                             image={post.urlToImage || 'https://placehold.co/300x200'}
                             title={post.title}
                             description={post.description}
