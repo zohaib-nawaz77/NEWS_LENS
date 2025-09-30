@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { PulseLoader } from 'react-spinners';
 
 const BoxPopup = ({ selectedPost, setSelectedPost }) => {
     const [summary, setSummary] = useState('');
@@ -111,7 +112,7 @@ const BoxPopup = ({ selectedPost, setSelectedPost }) => {
                                 animate={{ opacity: 1 }} // Animate to this state
                                 transition={{ delay: 0.5 }} // Delay the animation
                             >
-                                Generating Summary...
+                                Generating Summary  <span><PulseLoader size={6} color="#FF4500" /></span>
                             </motion.div>
                         ) : (
                             <>
